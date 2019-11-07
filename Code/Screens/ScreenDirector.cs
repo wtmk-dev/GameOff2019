@@ -3,6 +3,9 @@ using System.Collections.Generic;
 public class ScreenDirector
 {
     private Dictionary<ScreenID,IScreen> loadedScreens;
+
+    public ScreenID currentScreen;
+
     public ScreenDirector()
     {
         loadedScreens = new Dictionary<ScreenID,IScreen>();
@@ -17,9 +20,10 @@ public class ScreenDirector
     public void ShowScreen(ScreenID screenID)
     {
         loadedScreens[screenID].Show();
+        currentScreen = screenID;
     }
 
-    public void Hidecreen(ScreenID screenID)
+    public void HideScreen(ScreenID screenID)
     {
         loadedScreens[screenID].Hide();
     }

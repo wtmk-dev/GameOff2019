@@ -1,0 +1,4 @@
+public enum CMD
+{
+    StartGame
+}

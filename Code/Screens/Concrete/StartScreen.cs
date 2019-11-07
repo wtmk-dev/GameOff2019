@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,12 +11,22 @@ public class StartScreen : MonoBehaviour, IScreen
     [SerializeField]
     private ScreenID id = ScreenID.Start;
 
-    void Awake() 
+    private IInvoker invoker;
+
+    public void Init(IInvoker invoker)
     {
-        foreach(Button button in buttons)
-        {
-            AssignButtonCmd(button);
-        }
+        this.invoker = invoker;
+        AssignButtonCmds();
+    }
+
+    void Awake()
+    {
+        
+    }
+
+    void Start()
+    {
+       
     }
 
     public ScreenID GetID()
@@ -33,13 +44,16 @@ public class StartScreen : MonoBehaviour, IScreen
         gameObject.SetActive(false);
     }
 
-    private void AssignButtonCmd(Button button)
+    private void AssignButtonCmds()
     {
-        switch(button.name)
+        foreach(Button button in buttons)
         {
-            default:
-                button.onClick.AddListener( () => gameObject.SetActive(false) );
-                break;
+            switch(button.name)
+            {
+                default:
+                    button.onClick.AddListener( () => invoker.GetCommand(CMD.StartGame).Execute() );
+                    break;
+            }
         }
     }
 
