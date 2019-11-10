@@ -1,0 +1,36 @@
+{
+    "npc": 
+    [
+        {
+            "name"    : "Person that lost their wallet.",
+            "trigger" : "Lost Wallet",
+            "opener"  : "Have you seen a brown wallet?",
+            "a": 
+            {
+                "choice"  : "Is your name Wilfred",
+                "response": "Yes! It is thank you so much",
+                "nested"  :
+                {
+                    "opener": "Here take this as a reward!",
+                    "a":
+                    {
+                        "choice": "Thanks i appreciate it.",
+                        "response": "Wilfred smiles at you warmly.",
+                        "reward" : "Crisp Bill"
+                    },
+                    "b":
+                    {
+                        "choice": "Keep it Wilfred, Ill see you around.",
+                        "response": "Wilfred smiles at you warmly."
+                    }
+                }
+            },
+            "b":
+            {
+                "choice": "If i come across it ill let you know!",
+                "response": "Wilfred looks really stressed out."
+            }
+            
+        }
+    ]
+}
