@@ -12,24 +12,38 @@ public class Main : MonoBehaviour
     private ScreenDirector screenDirector;
     private Invoker cmdInvoker;
 
+    [SerializeField]
+    private GameObject npcPrefab, playerPrefab;
+    private GameObjectPooler npcPooler;
     private NPCFactory npcFactory;
+
+    private PlayerController playerController;
 
     private string NPC_DATAPAT = "NPCDATA.json";
 
     void Awake()
     {
+        //GameObject player = Instantiate(playerPrefab,new Vector3(0,0,0),Quaternion.identity);     
+        playerPrefab.SetActive(true);
+        playerController = playerPrefab.GetComponent<PlayerController>();
+
+        npcPooler = new GameObjectPooler();
         screens = new List<IScreen>();
         screenDirector = new ScreenDirector();
         cmdInvoker = new Invoker();
 
+    //Load
         LoadeNPCData();
         LoadGameScreens();
+    //Init
         InitCommands();
+    //Build
+        BuildNPCInteractables();
+
     }
 
     void Start()
     {
-        
         screenDirector.ShowScreen(ScreenID.Start);
     }
 
@@ -43,9 +57,16 @@ public class Main : MonoBehaviour
         }
     }
 
+    private void LoadeNPCData()
+    {
+        var data = File.ReadAllText(Application.dataPath + "\\" + NPC_DATAPAT);
+        npcFactory = new NPCFactory(data);
+    }
+
     private void InitCommands()
     {
-        cmdInvoker.SetCommand( new StartGameCommand(screenDirector) );
+        cmdInvoker.SetCommand( new StartGameCommand(screenDirector, playerController) );
+        cmdInvoker.SetCommand( new StartConversationCommand(screenDirector, playerController) );
 
         foreach(IScreen screen in screens)
         {
@@ -53,10 +74,37 @@ public class Main : MonoBehaviour
         }
     }
 
-    private void LoadeNPCData()
+    private void BuildNPCInteractables()
     {
-        var data = File.ReadAllText(Application.dataPath + "\\" + NPC_DATAPAT);
-        npcFactory = new NPCFactory(data);
+        StartConversationScreen scs = (StartConversationScreen) GetScreen(ScreenID.StartConversation);
+
+        foreach(NPCStrategy npc in npcFactory.GetAllNPCs())
+        {
+            GameObject clone = Instantiate(npcPrefab, new Vector3(0,0,0), Quaternion.identity);
+
+            NPC cloneNPC = clone.GetComponent<NPC>();
+            cloneNPC.Init(npc);
+
+            npcPooler.SetPoolable(clone);
+            clone.SetActive(true);
+
+            scs.RegiserterNPC( cloneNPC );
+        }
+
+        
+    }
+
+    private IScreen GetScreen(ScreenID id)
+    {
+        foreach(IScreen screen in screens)
+        {
+            if(screen.GetID() == id)
+            {
+                return screen;
+            }
+        }
+
+        return null;
     }
 
 }

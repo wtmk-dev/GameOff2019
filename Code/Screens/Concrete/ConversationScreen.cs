@@ -8,15 +8,16 @@ using UnityEngine.UI;
 public class ConversationScreen : MonoBehaviour , IScreen
 {
     [SerializeField]
-    private List<TextMeshProUGUI> textMeshPros;
+    private TextMeshProUGUI tmpNpcText, tmpOptionTextA, tmpOptionTextB;
 
     [SerializeField]
-    private List<Button> optionButtons;
+    private Button btnOptionA, btnOptionB;
 
-    [SerializeField]
     private ScreenID id = ScreenID.Conversation;
 
     private IInvoker invoker;
+
+    private NPCStrategy npcModel;
 
     public void Init(IInvoker invoker)
     {
@@ -38,23 +39,13 @@ public class ConversationScreen : MonoBehaviour , IScreen
         gameObject.SetActive(false);
     }
 
-    private void AssignTMPValue(TextMeshProUGUI tmp)
+    public void SetActiveNpc(NPC npc)
     {
-        switch(tmp.name)
-        {
-            default:
-                //button.onClick.AddListener( () => gameObject.SetActive(false) );
-                break;
-        }
-    }
+        npcModel =  npc.GetStrategy();
 
-    private void AssignButtonCmd(Button button)
-    {
-        switch(button.name)
-        {
-            default:
-                button.onClick.AddListener( () => gameObject.SetActive(false) );
-                break;
-        }
+        tmpNpcText.text = npcModel.conversations[npc.conversationIndex];
+
+        tmpOptionTextA.text = npcModel.choiceAs[npc.conversationIndex];
+        tmpOptionTextB.text = npcModel.choiceBs[npc.conversationIndex];
     }
 }

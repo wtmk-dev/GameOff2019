@@ -1,6 +1,6 @@
 {
-    "npc": 
-    [
+    "total": 1,
+    "0":
         {
             "name"    : "Person that lost their wallet.",
             "trigger" : "Lost Wallet",
@@ -32,5 +32,5 @@
             }
             
         }
-    ]
+    
 }

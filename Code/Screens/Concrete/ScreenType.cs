@@ -6,5 +6,6 @@ public enum ScreenID
     Tutorial,
     Main,
     Conversation,
-    Credits
+    Credits,
+    StartConversation
 }

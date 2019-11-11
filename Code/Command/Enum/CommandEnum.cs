@@ -1,4 +1,5 @@
 public enum CMD
 {
-    StartGame
+    StartGame,
+    StartConversation
 }

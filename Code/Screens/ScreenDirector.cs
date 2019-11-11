@@ -27,4 +27,9 @@ public class ScreenDirector
     {
         loadedScreens[screenID].Hide();
     }
+
+    public IScreen GetScreen(ScreenID id)
+    {
+        return loadedScreens[id];
+    }
 }
