@@ -84,14 +84,14 @@ public class StartConversationScreen : MonoBehaviour, IScreen
     }
 
 //events
-    private void DisplayConversationInformation(NPCStrategy npcStrat)
+    private void DisplayConversationInformation(Conversation convo)
     {
-        tmpNpcName.text = npcStrat.name;
+        tmpNpcName.text = convo._name;
 
         btnEngageInConversation.gameObject.SetActive(true);
     }
 
-    private void HideConversationInformation(NPCStrategy npcStrat)
+    private void HideConversationInformation(Conversation convo)
     {
         tmpNpcName.text = "";
 

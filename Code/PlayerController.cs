@@ -15,16 +15,17 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 moveDirection = Vector3.zero;
 
 	private NPC activeNPC;
-
-	public List<string> inventory;
+	
+	[SerializeField]
+	public List<Item> inventory;
 	public bool isActive;
 
 
 	void Awake()
 	{
-		inventory = new List<string>();
+		// inventory = new List<string>();
 
-		inventory.Add("Lost Wallet");
+		// inventory.Add("Lost Wallet");
 
 		isActive = false;
 		activeNPC = null;
@@ -54,14 +55,14 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
-	public NPC GetActiveNpc()
-	{
-		return activeNPC;
-	}
-
 	private void OnMove(InputValue value)
 	{
 		Debug.Log("On move" + value);
+	}
+
+	public void NpcInteraction()
+	{
+		activeNPC.ActiveChoice();
 	}
 
 //Player Interaction Controller TO:DO 

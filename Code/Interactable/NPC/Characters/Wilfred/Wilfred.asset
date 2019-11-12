@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a24d7d7163a3c8478cb2899a6afff73, type: 3}
+  m_Name: Wilfred
+  m_EditorClassIdentifier: 
+  cTriggerRadius: 5
+  _name: Person that lost their wallet
+  triggers: []
+  choices:
+  - {fileID: 11400000, guid: ffd82ab5aeadf814e8c305a4417a1562, type: 2}
+  - {fileID: 11400000, guid: e74c80ef8a9ee2249b43cc6f34a31876, type: 2}

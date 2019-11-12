@@ -5,15 +5,15 @@ using UnityEngine;
 
 public class NPCFactory 
 {
-    private List<NPCStrategy> NPCs;
+    private List<Conversation> NPCs;
 
-    public NPCFactory(string data)
+    public NPCFactory()
     {
-        NPCs = new List<NPCStrategy>();
-        ParseJSON(data);
+        NPCs = new List<Conversation>();
+        //ParseJSON(data);
     }
 
-    public List<NPCStrategy> GetAllNPCs()
+    public List<Conversation> GetAllNPCs()
     {
         return NPCs;
     }
@@ -27,7 +27,7 @@ public class NPCFactory
        string id;
        string name;
        string trigger;
-       float cTriggerRadius = 1f;
+       //float cTriggerRadius = 1f;
 
        for(int i = 0; i < total; i++)
        {
@@ -125,7 +125,7 @@ public class NPCFactory
                 }
             }
 
-            NPCs.Add( new NPCStrategy(name,cTriggerRadius,conversations,choiceAs,choiceBs,response,rewards,trigger) );
+            //NPCs.Add( new NPCStrategy(name,cTriggerRadius,conversations,choiceAs,choiceBs,response,rewards,trigger) );
        }
 
     }

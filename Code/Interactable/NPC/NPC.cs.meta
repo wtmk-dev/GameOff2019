@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ca24316dca53a564e8a4a30768f538a1
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - rig: {instanceID: 0}
+  - notificationIcon: {instanceID: 0}
+  - conversationTrigger: {instanceID: 0}
+  - conversation: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

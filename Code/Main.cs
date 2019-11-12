@@ -15,7 +15,9 @@ public class Main : MonoBehaviour
     [SerializeField]
     private GameObject npcPrefab, playerPrefab;
     private GameObjectPooler npcPooler;
-    private NPCFactory npcFactory;
+
+    [SerializeField]
+    private List<Conversation> npcs;
 
     private PlayerController playerController;
 
@@ -32,8 +34,6 @@ public class Main : MonoBehaviour
         screenDirector = new ScreenDirector();
         cmdInvoker = new Invoker();
 
-    //Load
-        LoadeNPCData();
         LoadGameScreens();
     //Init
         InitCommands();
@@ -57,11 +57,11 @@ public class Main : MonoBehaviour
         }
     }
 
-    private void LoadeNPCData()
-    {
-        var data = File.ReadAllText(Application.dataPath + "\\" + NPC_DATAPAT);
-        npcFactory = new NPCFactory(data);
-    }
+    // private void LoadeNPCData()
+    // {
+    //     var data = File.ReadAllText(Application.streamingAssetsPath + "\\" + NPC_DATAPAT);
+    //     npcFactory = new NPCFactory();
+    // }
 
     private void InitCommands()
     {
@@ -77,8 +77,9 @@ public class Main : MonoBehaviour
     private void BuildNPCInteractables()
     {
         StartConversationScreen scs = (StartConversationScreen) GetScreen(ScreenID.StartConversation);
+        ConversationScreen convoScreen = (ConversationScreen) GetScreen(ScreenID.Conversation);
 
-        foreach(NPCStrategy npc in npcFactory.GetAllNPCs())
+        foreach(Conversation npc in npcs)
         {
             GameObject clone = Instantiate(npcPrefab, new Vector3(0,0,0), Quaternion.identity);
 
@@ -89,6 +90,7 @@ public class Main : MonoBehaviour
             clone.SetActive(true);
 
             scs.RegiserterNPC( cloneNPC );
+            convoScreen.RegiserterNPC( cloneNPC );
         }
 
         

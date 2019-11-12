@@ -15,13 +15,18 @@ public class ConversationScreen : MonoBehaviour , IScreen
 
     private ScreenID id = ScreenID.Conversation;
 
+    private List<NPC> npcs;
+
     private IInvoker invoker;
 
-    private NPCStrategy npcModel;
+    private Conversation npcModel;
+
+    private Choice choice;
 
     public void Init(IInvoker invoker)
     {
         this.invoker = invoker;
+        npcs = new List<NPC>();
     }
 
     public ScreenID GetID()
@@ -39,13 +44,49 @@ public class ConversationScreen : MonoBehaviour , IScreen
         gameObject.SetActive(false);
     }
 
-    public void SetActiveNpc(NPC npc)
+    public void DisplayActiveChoice()
     {
-        npcModel =  npc.GetStrategy();
+        tmpNpcText.text = choice.question;
 
-        tmpNpcText.text = npcModel.conversations[npc.conversationIndex];
+        tmpOptionTextA.text = choice.answerA;
+        tmpOptionTextB.text = choice.answerB;
+    }
 
-        tmpOptionTextA.text = npcModel.choiceAs[npc.conversationIndex];
-        tmpOptionTextB.text = npcModel.choiceBs[npc.conversationIndex];
+    public void RegiserterNPC(NPC npc)
+    {
+        npcs.Add(npc);
+        npc.OnDisplayActiveChoice      += DisplayActiveChoice;
+        npc.OnHideActiveChoice += HideActiveChoice;
+    }
+
+    private void RegisterEvents()
+    {
+        foreach(NPC npc in npcs)
+        {
+            npc.OnDisplayActiveChoice      += DisplayActiveChoice;
+            npc.OnHideActiveChoice += HideActiveChoice;
+        }
+    }
+
+    private void DeregisterEvents()
+    {
+        foreach(NPC npc in npcs)
+        {
+            npc.OnDisplayActiveChoice      -= DisplayActiveChoice;
+            npc.OnHideActiveChoice -= HideActiveChoice;
+        }
+    }
+
+    //events
+    private void DisplayActiveChoice(Choice convo)
+    {
+        tmpNpcText.text = convo.question;
+        tmpOptionTextA.text = convo.answerA;
+        tmpOptionTextB.text = convo.answerB;
+    }
+
+    private void HideActiveChoice(Choice convo)
+    {
+       
     }
 }

@@ -25,15 +25,7 @@ public class StartConversationCommand : ICommand
         screenDirector.HideScreen(ScreenID.StartConversation);
 
         playerController.isActive = false;
-
-        ConversationScreen convoScreen = (ConversationScreen) screenDirector.GetScreen(ScreenID.Conversation);
-
-        if(convoScreen == null)
-        {
-            return;
-        }
-
-        convoScreen.SetActiveNpc( playerController.GetActiveNpc() );
+        playerController.NpcInteraction();
     }
     public void Unexecute()
     {
