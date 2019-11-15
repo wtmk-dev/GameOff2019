@@ -9,11 +9,12 @@ public class StartConversationScreen : MonoBehaviour, IScreen
     [SerializeField]
     private TextMeshProUGUI tmpNpcName;
     [SerializeField]
-    private Button btnEngageInConversation;
+    private Button btnEngageInConversation, btnPickUpItem;
 
     private IInvoker invoker;
 
     private List<NPC> npcs;
+    private List<Item> items;
 
     void OnEnable()
     {
@@ -51,10 +52,13 @@ public class StartConversationScreen : MonoBehaviour, IScreen
     {
         this.invoker = invoker;
         npcs = new List<NPC>();
+        items = new List<Item>();
 
         btnEngageInConversation.onClick.AddListener( () => invoker.GetCommand(CMD.StartConversation).Execute() );
+        //btnPickUpItem.onClick.AddListener( () => invoker.GetCommand(CMD.PickUpItem).Execute() );
 
         btnEngageInConversation.gameObject.SetActive(false);
+        btnPickUpItem.gameObject.SetActive(false);
     }
 //
 
@@ -65,12 +69,23 @@ public class StartConversationScreen : MonoBehaviour, IScreen
         npc.OnExitConversation += HideConversationInformation;
     }
 
+    public void RegisterItem(Item item)
+    {
+        items.Add(item);
+        item.OnItemInpscted += DisplayInspectedItem;
+    }
+
     private void RegisterEvents()
     {
         foreach(NPC npc in npcs)
         {
             npc.OnConversable      += DisplayConversationInformation;
             npc.OnExitConversation += HideConversationInformation;
+        }
+
+        foreach(var item in items)
+        {
+            item.OnItemInpscted += DisplayInspectedItem;
         }
     }
 
@@ -81,14 +96,28 @@ public class StartConversationScreen : MonoBehaviour, IScreen
             npc.OnConversable      -= DisplayConversationInformation;
             npc.OnExitConversation -= HideConversationInformation;
         }
+
+        foreach(var item in items)
+        {
+            item.OnItemInpscted -= DisplayInspectedItem;
+        }
     }
 
 //events
+    private void DisplayInspectedItem(Item item)
+    {
+        tmpNpcName.text = item._name;
+
+        btnEngageInConversation.gameObject.SetActive(false);
+        btnPickUpItem.gameObject.SetActive(true);
+    }
+
     private void DisplayConversationInformation(Conversation convo)
     {
         tmpNpcName.text = convo._name;
 
         btnEngageInConversation.gameObject.SetActive(true);
+        btnPickUpItem.gameObject.SetActive(false);
     }
 
     private void HideConversationInformation(Conversation convo)
@@ -96,5 +125,6 @@ public class StartConversationScreen : MonoBehaviour, IScreen
         tmpNpcName.text = "";
 
         btnEngageInConversation.gameObject.SetActive(false);
+        btnPickUpItem.gameObject.SetActive(false);
     }
 }

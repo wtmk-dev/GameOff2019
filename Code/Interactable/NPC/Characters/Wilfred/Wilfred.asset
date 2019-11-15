@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a24d7d7163a3c8478cb2899a6afff73, type: 3}
   m_Name: Wilfred
   m_EditorClassIdentifier: 
-  cTriggerRadius: 5
+  cTriggerRadius: 2.5
   _name: Person that lost their wallet
-  triggers: []
+  triggers:
+  - {fileID: 11400000, guid: 430adffa350ab494e804e0f2ccc23ad7, type: 2}
   choices:
   - {fileID: 11400000, guid: ffd82ab5aeadf814e8c305a4417a1562, type: 2}
   - {fileID: 11400000, guid: e74c80ef8a9ee2249b43cc6f34a31876, type: 2}
+  position: {x: -5, y: 0, z: 10}

@@ -12,8 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea1d3429f7e565844a699a16910c15ea, type: 3}
   m_Name: LostWallet
   m_EditorClassIdentifier: 
-  question: Have you see a brwon wallet?
+  question: Have you see a brown wallet?
   answerA: Is your name Wilfred?
   answerB: If i come across it ill let your know!
   responseA: Yes it is Thank you so much!
   responseB: '*Wilfred looks really stressed out*'
+  isNested: 1
+  usesTriggerItem: 1
+  willReward: 0
+  rewardsA: []
+  rewardsB: []
+  useTriggerItemA:
+  - {fileID: 11400000, guid: 430adffa350ab494e804e0f2ccc23ad7, type: 2}
+  useTriggerItemB:
+  - {fileID: 11400000, guid: 430adffa350ab494e804e0f2ccc23ad7, type: 2}
+  nestTrigger: 2

@@ -4,11 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class NPC : MonoBehaviour
-{
+{   
+    public delegate void EndConversationEvent();
+    public event EndConversationEvent OnEndConversation;
+    public event Action<CMD,Choice> OnMakeChoice;
     public event Action<Conversation> OnConversable;
     public event Action<Conversation> OnExitConversation;
     public event Action<Choice> OnDisplayActiveChoice;
     public event Action<Choice> OnHideActiveChoice;
+
     [SerializeField]
     private GameObject rig, notificationIcon;
     [SerializeField]
@@ -39,10 +43,56 @@ public class NPC : MonoBehaviour
         }
     }
 
+    public void MakeChoice(CMD choice)
+    {
+        if( conversationIndex < conversation.choices.Count )
+        {
+            if(OnMakeChoice != null)
+            {
+                OnMakeChoice(choice,conversation.choices[conversationIndex]);
+            }
+
+            if(conversation.choices[conversationIndex].usesTriggerItem)
+            {
+                conversation.choices[conversationIndex].UseTriggerItem(choice);
+            }
+
+            if(conversation.choices[conversationIndex].willReward)
+            {
+                conversation.choices[conversationIndex].RewardItem(choice);
+            }
+
+            conversationIndex++;
+        }
+    }
+
+    public void EndConversation()
+    {
+        if(OnEndConversation != null)
+        {
+            OnEndConversation();
+        }
+
+        notificationIcon.SetActive(false);
+
+        conversationIndex = -1;
+    }
+
     public void CheckInventoryForTriggers(List<Item> inventory)
     {
         int amountOfConvoTriggers = conversation.triggers.Count;
         int triggered = 0;
+
+        if(amountOfConvoTriggers == 0)
+        {
+            notificationIcon.SetActive(true);
+
+            if(OnConversable != null)
+            {
+                OnConversable(conversation);
+                return;
+            }
+        } 
 
         foreach(var item in inventory)
         {
@@ -60,12 +110,11 @@ public class NPC : MonoBehaviour
                     if(OnConversable != null)
                     {
                         OnConversable(conversation);
+                        break;
                     }
                 }
             }
-               
         }
-            
     }
 
     public void ExitConversationRange()

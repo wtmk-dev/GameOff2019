@@ -17,3 +17,12 @@ MonoBehaviour:
   answerB: "No TY ill see you around \u201CWilfred\u201D"
   responseA: '*Wilfred smiles at you warmly* '
   responseB: '*Wilfred smiles at you warmly*'
+  isNested: 0
+  usesTriggerItem: 0
+  willReward: 1
+  rewardsA:
+  - {fileID: 11400000, guid: f635b464a6b082142ae2481dfdca747a, type: 2}
+  rewardsB: []
+  useTriggerItemA: []
+  useTriggerItemB: []
+  nestTrigger: 0

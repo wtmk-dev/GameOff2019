@@ -13,11 +13,14 @@ public class Main : MonoBehaviour
     private Invoker cmdInvoker;
 
     [SerializeField]
-    private GameObject npcPrefab, playerPrefab;
+    private GameObject npcPrefab, playerPrefab, itemPrefab;
     private GameObjectPooler npcPooler;
+    private GameObjectPooler itemPooler;
 
     [SerializeField]
     private List<Conversation> npcs;
+    [SerializeField]
+    private List<Item> items;
 
     private PlayerController playerController;
 
@@ -30,16 +33,17 @@ public class Main : MonoBehaviour
         playerController = playerPrefab.GetComponent<PlayerController>();
 
         npcPooler = new GameObjectPooler();
+        itemPooler = new GameObjectPooler();
         screens = new List<IScreen>();
         screenDirector = new ScreenDirector();
         cmdInvoker = new Invoker();
 
+    //Load
         LoadGameScreens();
     //Init
         InitCommands();
     //Build
         BuildNPCInteractables();
-
     }
 
     void Start()
@@ -67,6 +71,10 @@ public class Main : MonoBehaviour
     {
         cmdInvoker.SetCommand( new StartGameCommand(screenDirector, playerController) );
         cmdInvoker.SetCommand( new StartConversationCommand(screenDirector, playerController) );
+        cmdInvoker.SetCommand( new ConversationChoiceCommand( playerController, CMD.OptionA ) );
+        cmdInvoker.SetCommand( new ConversationChoiceCommand( playerController, CMD.OptionB ) );
+        cmdInvoker.SetCommand( new EndConversationCommand( playerController ) );
+        cmdInvoker.SetCommand( new ContinueConversationCommand( playerController ) );
 
         foreach(IScreen screen in screens)
         {
@@ -81,19 +89,37 @@ public class Main : MonoBehaviour
 
         foreach(Conversation npc in npcs)
         {
-            GameObject clone = Instantiate(npcPrefab, new Vector3(0,0,0), Quaternion.identity);
+            GameObject clone = Instantiate(npcPrefab, npc.position, Quaternion.identity);
 
             NPC cloneNPC = clone.GetComponent<NPC>();
             cloneNPC.Init(npc);
 
             npcPooler.SetPoolable(clone);
             clone.SetActive(true);
+            clone.transform.position = npc.position;
 
             scs.RegiserterNPC( cloneNPC );
             convoScreen.RegiserterNPC( cloneNPC );
         }
+    }
 
-        
+    private void BuildItemInteractables()
+    {
+        StartConversationScreen scs = (StartConversationScreen) GetScreen(ScreenID.StartConversation);
+
+        foreach(Item item in items)
+        {
+            GameObject clone = Instantiate(itemPrefab, item.position, Quaternion.identity);
+
+            ItemClone itemClone = clone.GetComponent<ItemClone>();
+            itemClone.Init(item);
+
+            itemPooler.SetPoolable(clone);
+            clone.SetActive(true);
+
+            playerController.RegisterItemEvents(item);
+            scs.RegisterItem(item);
+        }
     }
 
     private IScreen GetScreen(ScreenID id)

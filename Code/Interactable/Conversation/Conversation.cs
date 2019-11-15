@@ -9,4 +9,5 @@ public class Conversation : ScriptableObject
     public string _name;
     public List<Item> triggers;
     public List<Choice> choices;
+    public Vector3 position;
 }

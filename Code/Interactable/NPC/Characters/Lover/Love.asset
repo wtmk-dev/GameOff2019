@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea1d3429f7e565844a699a16910c15ea, type: 3}
+  m_Name: Love
+  m_EditorClassIdentifier: 
+  question: I like your heart! Can I has?
+  answerA: Kay just don't break it.
+  answerB: Maybe we should get coffee first?
+  responseA: '*(;.;)* Ill be G E N T AL...'
+  responseB: Your just not who i thought you where
+  isNested: 0
+  usesTriggerItem: 0
+  willReward: 1
+  rewardsA:
+  - {fileID: 11400000, guid: f2e31f9e64f373c49970baa41d31588c, type: 2}
+  rewardsB:
+  - {fileID: 11400000, guid: 430adffa350ab494e804e0f2ccc23ad7, type: 2}
+  useTriggerItemA: []
+  useTriggerItemB: []
+  nestTrigger: 0

@@ -11,7 +11,7 @@ public class ConversationScreen : MonoBehaviour , IScreen
     private TextMeshProUGUI tmpNpcText, tmpOptionTextA, tmpOptionTextB;
 
     [SerializeField]
-    private Button btnOptionA, btnOptionB;
+    private Button btnOptionA, btnOptionB, btnContinue, btnEndConversation;
 
     private ScreenID id = ScreenID.Conversation;
 
@@ -27,6 +27,15 @@ public class ConversationScreen : MonoBehaviour , IScreen
     {
         this.invoker = invoker;
         npcs = new List<NPC>();
+
+        btnOptionA.onClick.AddListener( () => invoker.GetCommand(CMD.OptionA).Execute() );
+        btnOptionB.onClick.AddListener( () => invoker.GetCommand(CMD.OptionB).Execute() );
+
+        btnEndConversation.onClick.AddListener( () => invoker.GetCommand(CMD.EndConversation).Execute() );
+        btnContinue.onClick.AddListener( () => invoker.GetCommand(CMD.ContinueConversation).Execute() );
+
+        btnEndConversation.gameObject.SetActive(false);
+        btnContinue.gameObject.SetActive(false);
     }
 
     public ScreenID GetID()
@@ -57,6 +66,8 @@ public class ConversationScreen : MonoBehaviour , IScreen
         npcs.Add(npc);
         npc.OnDisplayActiveChoice      += DisplayActiveChoice;
         npc.OnHideActiveChoice += HideActiveChoice;
+        npc.OnMakeChoice += DisplayResponse;
+        npc.OnEndConversation += EndConversation;
     }
 
     private void RegisterEvents()
@@ -65,6 +76,8 @@ public class ConversationScreen : MonoBehaviour , IScreen
         {
             npc.OnDisplayActiveChoice      += DisplayActiveChoice;
             npc.OnHideActiveChoice += HideActiveChoice;
+            npc.OnMakeChoice += DisplayResponse;
+            npc.OnEndConversation += EndConversation;
         }
     }
 
@@ -74,12 +87,25 @@ public class ConversationScreen : MonoBehaviour , IScreen
         {
             npc.OnDisplayActiveChoice      -= DisplayActiveChoice;
             npc.OnHideActiveChoice -= HideActiveChoice;
+            npc.OnMakeChoice -= DisplayResponse;
+            npc.OnEndConversation -= EndConversation;
         }
     }
 
     //events
     private void DisplayActiveChoice(Choice convo)
     {
+        tmpNpcText.gameObject.SetActive(true); 
+        tmpOptionTextA.gameObject.SetActive(true); 
+        tmpOptionTextB.gameObject.SetActive(true);
+
+        btnOptionA.gameObject.SetActive(true); 
+        btnOptionB.gameObject.SetActive(true);
+        
+        btnContinue.gameObject.SetActive(false); 
+        btnEndConversation.gameObject.SetActive(false);
+
+
         tmpNpcText.text = convo.question;
         tmpOptionTextA.text = convo.answerA;
         tmpOptionTextB.text = convo.answerB;
@@ -88,5 +114,34 @@ public class ConversationScreen : MonoBehaviour , IScreen
     private void HideActiveChoice(Choice convo)
     {
        
+    }
+
+    private void DisplayResponse(CMD cmd, Choice choice)
+    {
+        tmpNpcText.text = choice.GetResponse(cmd);
+
+        btnOptionA.gameObject.SetActive(false);
+        btnOptionB.gameObject.SetActive(false);
+
+        if(choice.CheckForNextChoice(cmd))
+        {
+            btnContinue.gameObject.SetActive(true);
+        }else {
+            btnEndConversation.gameObject.SetActive(true);
+        }
+
+    }
+
+    private void EndConversation()
+    {
+        tmpNpcText.gameObject.SetActive(false); 
+        tmpOptionTextA.gameObject.SetActive(false); 
+        tmpOptionTextB.gameObject.SetActive(false);
+
+        btnOptionA.gameObject.SetActive(false); 
+        btnOptionB.gameObject.SetActive(false);
+        
+        btnContinue.gameObject.SetActive(false); 
+        btnEndConversation.gameObject.SetActive(false);
     }
 }

@@ -1,5 +1,9 @@
 public enum CMD
 {
     StartGame,
-    StartConversation
+    StartConversation,
+    OptionA,
+    OptionB,
+    EndConversation,
+    ContinueConversation
 }
