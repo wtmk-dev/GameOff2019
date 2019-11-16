@@ -16,6 +16,7 @@ public class Main : MonoBehaviour
     private GameObject npcPrefab, playerPrefab, itemPrefab;
     private GameObjectPooler npcPooler;
     private GameObjectPooler itemPooler;
+    private GameObjectPooler worldPooler;
 
     [SerializeField]
     private List<Conversation> npcs;
